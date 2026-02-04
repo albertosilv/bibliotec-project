@@ -1,4 +1,3 @@
-// src/repositories/CategoriaRepository.ts
 import { Categoria, CategoriaCreationAttributes } from '../models/Categoria';
 import { Op } from 'sequelize';
 
@@ -46,7 +45,6 @@ export class CategoriaRepository {
     });
   }
 
-  // Paginação simples
   async findPaginated(page: number = 1, pageSize: number = 10): Promise<{
     data: Categoria[],
     total: number,

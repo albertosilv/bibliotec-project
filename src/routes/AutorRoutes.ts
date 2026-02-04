@@ -1,6 +1,6 @@
-// src/routes/autorRoutes.ts
 import { Router } from 'express';
 import AutorController from '../controllers/AutorController';
+import { adminMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
 const autorController = new AutorController();
@@ -214,7 +214,7 @@ router.get('/:id', autorController.getById);
  *       400:
  *         description: Dados inválidos ou incompletos
  */
-router.post('/', autorController.create);
+router.post('/',adminMiddleware, autorController.create);
 
 /**
  * @swagger
@@ -273,7 +273,7 @@ router.post('/', autorController.create);
  *       404:
  *         description: Autor não encontrado
  */
-router.put('/:id', autorController.update);
+router.put('/:id',adminMiddleware, autorController.update);
 
 /**
  * @swagger
@@ -426,12 +426,6 @@ router.get('/stats', autorController.getStats);
  *         - id
  *         - nome
  */
-router.get('/paginated', autorController.getPaginated);
-router.get('/stats', autorController.getStats);
-router.get('/search', autorController.search);
-router.get('/:id', autorController.getById);
-router.post('/', autorController.create);
-router.put('/:id', autorController.update);
-router.delete('/:id', autorController.delete);
+
 
 export default router;

@@ -1,4 +1,3 @@
-// src/models/Usuario.ts
 import { Model, DataTypes, Optional, HasManyGetAssociationsMixin } from "sequelize";
 import sequelize from "../config/database";
 import { Emprestimo } from "./Emprestimo";

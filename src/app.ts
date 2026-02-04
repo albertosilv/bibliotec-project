@@ -8,17 +8,18 @@ import sequelize, { testConnection, syncModels } from './config/database';
 
 import './models';
 import usuarioRoutes from './routes/UsuarioRoutes';
+import authRoutes from './routes/AuthRoutes'
 import autorRoutes from './routes/AutorRoutes';
 import categoriaRoutes from './routes/CategoriaRoutes';
 import emprestimoRoutes from './routes/EmprestimoRoutes';
 import livroRoutes from './routes/LivroRoutes';
+import { authMiddleware } from './middlewares/auth.middleware';
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuração SIMPLES do Swagger
 const swaggerOptions = {
   definition: {
     openapi: '3.0.0',
@@ -34,26 +35,23 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./src/routes/*.ts'] // Vai ler as rotas automaticamente
+  apis: ['./src/routes/*.ts'] 
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Swagger UI
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Todas as rotas
-app.use('/usuarios', usuarioRoutes);
-app.use('/autores', autorRoutes);
-app.use('/categorias', categoriaRoutes);
-app.use('/emprestimos', emprestimoRoutes);
-app.use('/livros', livroRoutes);
+app.use('/auth',authRoutes)
+app.use('/usuarios',authMiddleware, usuarioRoutes);
+app.use('/autores',authMiddleware, autorRoutes);
+app.use('/categorias',authMiddleware, categoriaRoutes);
+app.use('/emprestimos',authMiddleware, emprestimoRoutes);
+app.use('/livros',authMiddleware, livroRoutes);
 
-// Interface para tratamento de erros
 interface ErrorWithMessage {
   message: string;
 }
@@ -81,7 +79,6 @@ function getErrorMessage(error: unknown) {
   return toErrorWithMessage(error).message;
 }
 
-// Rotas básicas
 app.get('/', (req, res) => {
   res.json({ 
     message: 'Sistema de Biblioteca API',
@@ -114,7 +111,6 @@ app.get('/health', async (req, res) => {
   }
 });
 
-// Rota para obter especificação Swagger em JSON
 app.get('/swagger.json', (req, res) => {
   res.setHeader('Content-Type', 'application/json');
   res.send(swaggerSpec);

@@ -1,4 +1,3 @@
-// src/services/AutorService.ts
 import AutorRepository from '../repositories/AutorRepository';
 import { Autor, AutorCreationAttributes } from '../models/Autor';
 
@@ -72,7 +71,6 @@ export class AutorService {
     }
   }
 
-  // Busca por nome
   async searchAutores(nome: string): Promise<Autor[]> {
     try {
       if (!nome || nome.trim().length < 2) {

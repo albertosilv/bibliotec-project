@@ -1,4 +1,3 @@
-// src/controllers/EmprestimoController.ts
 import { Request, Response } from 'express';
 import EmprestimoService from '../services/EmprestimoService';
 
@@ -6,7 +5,6 @@ const emprestimoService = new EmprestimoService();
 
 export class EmprestimoController {
   
-  // Listar todos (sem paginação)
   async getAll(req: Request, res: Response): Promise<void> {
     try {
       const emprestimos = await emprestimoService.getAllEmprestimos();
@@ -23,7 +21,6 @@ export class EmprestimoController {
     }
   }
 
-  // Listar com detalhes
   async getWithDetails(req: Request, res: Response): Promise<void> {
     try {
       const emprestimos = await emprestimoService.getEmprestimosWithDetails();
@@ -40,7 +37,6 @@ export class EmprestimoController {
     }
   }
 
-  // Listar com paginação
   async getPaginated(req: Request, res: Response): Promise<void> {
     try {
       const page = parseInt(req.query.page as string) || 1;
@@ -69,7 +65,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar por ID
   async getById(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -88,7 +83,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar por ID com detalhes
   async getByIdWithDetails(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -107,7 +101,6 @@ export class EmprestimoController {
     }
   }
 
-  // Criar
   async create(req: Request, res: Response): Promise<void> {
     try {
       const { 
@@ -117,7 +110,6 @@ export class EmprestimoController {
         data_devolucao_prevista 
       } = req.body;
 
-      // Validações básicas
       if (!usuario_id) {
         res.status(400).json({
           success: false,
@@ -174,7 +166,6 @@ export class EmprestimoController {
     }
   }
 
-  // Atualizar
   async update(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -210,7 +201,6 @@ export class EmprestimoController {
     }
   }
 
-  // Deletar
   async delete(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -228,7 +218,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar por usuário
   async getByUsuario(req: Request, res: Response): Promise<void> {
     try {
       const usuarioId = parseInt(req.params.usuarioId);
@@ -247,7 +236,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar por usuário com detalhes
   async getByUsuarioWithDetails(req: Request, res: Response): Promise<void> {
     try {
       const usuarioId = parseInt(req.params.usuarioId);
@@ -266,7 +254,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar por livro
   async getByLivro(req: Request, res: Response): Promise<void> {
     try {
       const livroId = parseInt(req.params.livroId);
@@ -285,7 +272,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar ativos
   async getAtivos(req: Request, res: Response): Promise<void> {
     try {
       const emprestimos = await emprestimoService.getEmprestimosAtivos();
@@ -303,7 +289,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar atrasados
   async getAtrasados(req: Request, res: Response): Promise<void> {
     try {
       const emprestimos = await emprestimoService.getEmprestimosAtrasados();
@@ -321,7 +306,6 @@ export class EmprestimoController {
     }
   }
 
-  // Buscar por status
   async getByStatus(req: Request, res: Response): Promise<void> {
     try {
       const { status } = req.params;
@@ -340,7 +324,6 @@ export class EmprestimoController {
     }
   }
 
-  // Registrar devolução
   async devolver(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -359,7 +342,6 @@ export class EmprestimoController {
     }
   }
 
-  // Marcar como atrasado
   async marcarAtrasado(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -378,7 +360,6 @@ export class EmprestimoController {
     }
   }
 
-  // Verificar se usuário tem empréstimos ativos
   async checkUsuarioAtivos(req: Request, res: Response): Promise<void> {
     try {
       const usuarioId = parseInt(req.params.usuarioId);
@@ -397,7 +378,6 @@ export class EmprestimoController {
     }
   }
 
-  // Verificar se livro está emprestado
   async checkLivroEmprestado(req: Request, res: Response): Promise<void> {
     try {
       const livroId = parseInt(req.params.livroId);
@@ -416,7 +396,6 @@ export class EmprestimoController {
     }
   }
 
-  // Estatísticas
   async getStats(req: Request, res: Response): Promise<void> {
     try {
       const stats = await emprestimoService.getEmprestimosStats();

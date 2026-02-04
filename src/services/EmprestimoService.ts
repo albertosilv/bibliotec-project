@@ -1,4 +1,3 @@
-// src/services/EmprestimoService.ts
 import EmprestimoRepository from '../repositories/EmprestimoRepository';
 import { Emprestimo, EmprestimoCreationAttributes } from '../models/Emprestimo';
 
@@ -9,7 +8,6 @@ export class EmprestimoService {
     this.emprestimoRepository = new EmprestimoRepository();
   }
 
-  // CRUD Básico
   async getAllEmprestimos(): Promise<Emprestimo[]> {
     try {
       return await this.emprestimoRepository.findAll();
@@ -32,7 +30,6 @@ export class EmprestimoService {
 
   async createEmprestimo(emprestimoData: EmprestimoCreationAttributes): Promise<Emprestimo> {
     try {
-      // Validações
       if (!emprestimoData.usuario_id) {
         throw new Error('Usuário é obrigatório');
       }
@@ -49,7 +46,6 @@ export class EmprestimoService {
         throw new Error('Data de devolução prevista é obrigatória');
       }
 
-      // Verificar se data de devolução prevista é após data de empréstimo
       if (emprestimoData.data_devolucao_prevista <= emprestimoData.data_emprestimo) {
         throw new Error('Data de devolução prevista deve ser após a data de empréstimo');
       }
@@ -67,7 +63,6 @@ export class EmprestimoService {
         throw new Error('Empréstimo não encontrado');
       }
 
-      // Validações para atualização
       if (emprestimoData.data_devolucao_prevista && emprestimoData.data_devolucao_prevista <= emprestimo.data_emprestimo) {
         throw new Error('Data de devolução prevista deve ser após a data de empréstimo');
       }
@@ -91,7 +86,6 @@ export class EmprestimoService {
     }
   }
 
-  // Busca por usuário
   async getEmprestimosByUsuario(usuarioId: number): Promise<Emprestimo[]> {
     try {
       return await this.emprestimoRepository.findByUsuario(usuarioId);
@@ -100,7 +94,6 @@ export class EmprestimoService {
     }
   }
 
-  // Busca por livro
   async getEmprestimosByLivro(livroId: number): Promise<Emprestimo[]> {
     try {
       return await this.emprestimoRepository.findByLivro(livroId);
@@ -109,7 +102,6 @@ export class EmprestimoService {
     }
   }
 
-  // Busca empréstimos ativos
   async getEmprestimosAtivos(): Promise<Emprestimo[]> {
     try {
       return await this.emprestimoRepository.findAtivos();
@@ -118,7 +110,6 @@ export class EmprestimoService {
     }
   }
 
-  // Busca empréstimos atrasados
   async getEmprestimosAtrasados(): Promise<Emprestimo[]> {
     try {
       return await this.emprestimoRepository.findAtrasados();
@@ -127,7 +118,6 @@ export class EmprestimoService {
     }
   }
 
-  // Busca por status
   async getEmprestimosByStatus(status: string): Promise<Emprestimo[]> {
     try {
       if (!['ativo', 'devolvido', 'atrasado'].includes(status)) {
@@ -139,7 +129,6 @@ export class EmprestimoService {
     }
   }
 
-  // Paginação
   async getEmprestimosPaginados(page: number = 1, pageSize: number = 10): Promise<{
     data: Emprestimo[],
     total: number,
@@ -157,7 +146,6 @@ export class EmprestimoService {
     }
   }
 
-  // Empréstimos com detalhes
   async getEmprestimosWithDetails(): Promise<Emprestimo[]> {
     try {
       return await this.emprestimoRepository.findWithDetails();
@@ -166,7 +154,6 @@ export class EmprestimoService {
     }
   }
 
-  // Empréstimo por ID com detalhes
   async getEmprestimoByIdWithDetails(id: number): Promise<Emprestimo | null> {
     try {
       const emprestimo = await this.emprestimoRepository.findByIdWithDetails(id);
@@ -179,7 +166,6 @@ export class EmprestimoService {
     }
   }
 
-  // Empréstimos por usuário com detalhes
   async getEmprestimosByUsuarioWithDetails(usuarioId: number): Promise<Emprestimo[]> {
     try {
       return await this.emprestimoRepository.findByUsuarioWithDetails(usuarioId);
@@ -188,7 +174,6 @@ export class EmprestimoService {
     }
   }
 
-  // Registrar devolução
   async registrarDevolucao(id: number): Promise<[number, Emprestimo[]]> {
     try {
       const emprestimo = await this.emprestimoRepository.findById(id);
@@ -206,7 +191,6 @@ export class EmprestimoService {
     }
   }
 
-  // Atualizar status para atrasado
   async marcarComoAtrasado(id: number): Promise<[number, Emprestimo[]]> {
     try {
       const emprestimo = await this.emprestimoRepository.findById(id);
@@ -224,7 +208,6 @@ export class EmprestimoService {
     }
   }
 
-  // Verificar se usuário tem empréstimos ativos
   async usuarioTemEmprestimosAtivos(usuarioId: number): Promise<boolean> {
     try {
       return await this.emprestimoRepository.usuarioTemEmprestimosAtivos(usuarioId);
@@ -233,7 +216,6 @@ export class EmprestimoService {
     }
   }
 
-  // Verificar se livro está emprestado
   async livroEstaEmprestado(livroId: number): Promise<boolean> {
     try {
       return await this.emprestimoRepository.livroEstaEmprestado(livroId);

@@ -1,4 +1,3 @@
-// src/repositories/UsuarioRepository.ts
 import { Usuario, UsuarioCreationAttributes } from '../models/Usuario';
 import { Op } from 'sequelize';
 

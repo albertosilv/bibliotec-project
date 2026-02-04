@@ -1,4 +1,3 @@
-// src/models/index.ts
 import { Usuario } from './Usuario';
 import { Livro } from './Livro';
 import { Autor } from './Autor';
@@ -25,7 +24,6 @@ Emprestimo.belongsTo(Livro, {
   as: 'livro'
 });
 
-// Categoria 1:N Livro
 Categoria.hasMany(Livro, {
   foreignKey: 'categoria_id',
   as: 'livros'

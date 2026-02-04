@@ -1,4 +1,3 @@
-// src/services/UsuarioService.ts
 import UsuarioRepository from '../repositories/UsuarioRepository';
 import { Usuario, UsuarioCreationAttributes } from '../models/Usuario';
 
@@ -31,7 +30,6 @@ export class UsuarioService {
 
   async createUsuario(usuarioData: UsuarioCreationAttributes): Promise<Usuario> {
     try {
-      // Verificar se email já existe
       const existingUser = await this.usuarioRepository.findByEmail(usuarioData.email);
       if (existingUser) {
         throw new Error('Email já está em uso');

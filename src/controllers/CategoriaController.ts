@@ -1,4 +1,3 @@
-// src/controllers/CategoriaController.ts
 import { Request, Response } from 'express';
 import CategoriaService from '../services/CategoriaService';
 
@@ -6,7 +5,6 @@ const categoriaService = new CategoriaService();
 
 export class CategoriaController {
   
-  // Listar todos (sem paginação - para selects simples)
   async getAll(req: Request, res: Response): Promise<void> {
     try {
       const categorias = await categoriaService.getAllCategorias();
@@ -23,7 +21,6 @@ export class CategoriaController {
     }
   }
 
-  // Listar com paginação
   async getPaginated(req: Request, res: Response): Promise<void> {
     try {
       const page = parseInt(req.query.page as string) || 1;
@@ -52,7 +49,6 @@ export class CategoriaController {
     }
   }
 
-  // Buscar por ID
   async getById(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -71,7 +67,6 @@ export class CategoriaController {
     }
   }
 
-  // Criar
   async create(req: Request, res: Response): Promise<void> {
     try {
       const { nome, descricao } = req.body;
@@ -104,7 +99,6 @@ export class CategoriaController {
     }
   }
 
-  // Atualizar
   async update(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -137,7 +131,6 @@ export class CategoriaController {
     }
   }
 
-  // Deletar
   async delete(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -155,7 +148,6 @@ export class CategoriaController {
     }
   }
 
-  // Buscar por nome
   async search(req: Request, res: Response): Promise<void> {
     try {
       const { nome } = req.query;
@@ -183,7 +175,6 @@ export class CategoriaController {
     }
   }
 
-  // Estatísticas simples
   async getStats(req: Request, res: Response): Promise<void> {
     try {
       const total = await categoriaService.getTotalCategorias();

@@ -1,6 +1,7 @@
 // src/routes/categoriaRoutes.ts
 import { Router } from 'express';
 import CategoriaController from '../controllers/CategoriaController';
+import { adminMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
 const categoriaController = new CategoriaController();
@@ -183,7 +184,7 @@ router.get('/:id', categoriaController.getById);
  *       400:
  *         description: Dados inválidos ou incompletos
  */
-router.post('/', categoriaController.create);
+router.post('/',adminMiddleware, categoriaController.create);
 
 /**
  * @swagger
@@ -236,7 +237,7 @@ router.post('/', categoriaController.create);
  *       404:
  *         description: Categoria não encontrada
  */
-router.put('/:id', categoriaController.update);
+router.put('/:id',adminMiddleware, categoriaController.update);
 
 /**
  * @swagger

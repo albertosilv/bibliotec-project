@@ -1,4 +1,3 @@
-// src/routes/livroRoutes.ts
 import { Router } from 'express';
 import LivroController from '../controllers/LivroController';
 

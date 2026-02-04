@@ -1,4 +1,3 @@
-// src/models/Livro.ts
 import { Model, DataTypes, Optional, HasManyGetAssociationsMixin, BelongsToGetAssociationMixin } from "sequelize";
 import sequelize from "../config/database";
 import { Emprestimo } from "./Emprestimo";
@@ -29,12 +28,10 @@ export class Livro extends Model<LivroAttributes, LivroCreationAttributes> imple
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
 
-  // Para TypeScript
   public emprestimos?: Emprestimo[];
   public categoria?: Categoria;
   public autor?: Autor;
 
-  // Métodos de associação do Sequelize
   public getEmprestimos!: HasManyGetAssociationsMixin<Emprestimo>;
   public getCategoria!: BelongsToGetAssociationMixin<Categoria>;
   public getAutor!: BelongsToGetAssociationMixin<Autor>;

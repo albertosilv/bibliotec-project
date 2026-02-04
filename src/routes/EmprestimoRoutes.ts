@@ -1,4 +1,3 @@
-// src/routes/emprestimoRoutes.ts
 import { Router } from 'express';
 import EmprestimoController from '../controllers/EmprestimoController';
 

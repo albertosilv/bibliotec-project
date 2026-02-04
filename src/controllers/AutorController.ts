@@ -1,4 +1,3 @@
-// src/controllers/AutorController.ts
 import { Request, Response } from 'express';
 import AutorService from '../services/AutorService';
 
@@ -6,7 +5,6 @@ const autorService = new AutorService();
 
 export class AutorController {
   
-  // Listar todos (sem paginação - para selects simples)
   async getAll(req: Request, res: Response): Promise<void> {
     try {
       const autores = await autorService.getAllAutores();
@@ -23,7 +21,6 @@ export class AutorController {
     }
   }
 
-  // Listar com paginação
   async getPaginated(req: Request, res: Response): Promise<void> {
     try {
       const page = parseInt(req.query.page as string) || 1;
@@ -52,7 +49,6 @@ export class AutorController {
     }
   }
 
-  // Buscar por ID
   async getById(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -71,7 +67,6 @@ export class AutorController {
     }
   }
 
-  // Criar
   async create(req: Request, res: Response): Promise<void> {
     try {
       const { nome, biografia, data_nascimento, nacionalidade } = req.body;
@@ -106,7 +101,6 @@ export class AutorController {
     }
   }
 
-  // Atualizar
   async update(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -141,7 +135,6 @@ export class AutorController {
     }
   }
 
-  // Deletar
   async delete(req: Request, res: Response): Promise<void> {
     try {
       const id = parseInt(req.params.id);
@@ -159,7 +152,6 @@ export class AutorController {
     }
   }
 
-  // Buscar por nome
   async search(req: Request, res: Response): Promise<void> {
     try {
       const { nome } = req.query;
@@ -187,7 +179,6 @@ export class AutorController {
     }
   }
 
-  // Estatísticas simples
   async getStats(req: Request, res: Response): Promise<void> {
     try {
       const total = await autorService.getTotalAutores();

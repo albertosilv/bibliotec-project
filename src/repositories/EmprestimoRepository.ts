@@ -37,7 +37,6 @@ export class EmprestimoRepository {
     return await Emprestimo.count();
   }
 
-  // Busca por usuário
   async findByUsuario(usuarioId: number): Promise<Emprestimo[]> {
     return await Emprestimo.findAll({
       where: { usuario_id: usuarioId },
@@ -45,7 +44,6 @@ export class EmprestimoRepository {
     });
   }
 
-  // Busca por livro
   async findByLivro(livroId: number): Promise<Emprestimo[]> {
     return await Emprestimo.findAll({
       where: { livro_id: livroId },

@@ -11,7 +11,6 @@ const sequelize = new Sequelize({
   port: parseInt(process.env.DB_PORT || '3306'),
   dialect: 'mysql',
   dialectOptions: {
-    // Opções para conexão com Docker
     connectTimeout: 60000
   },
   pool: {
@@ -26,13 +25,11 @@ const sequelize = new Sequelize({
     underscored: false,
     freezeTableName: true
   },
-  // Adicionar para melhor estabilidade
   retry: {
     max: 3
   }
 });
 
-// Testar conexão com retry
 export const testConnection = async (retries = 3): Promise<void> => {
   for (let i = 0; i < retries; i++) {
     try {
