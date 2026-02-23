@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import AutorController from '../controllers/AutorController';
-import { adminMiddleware } from '../middlewares/auth.middleware';
+import { adminMiddleware, authMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
 const autorController = new AutorController();
@@ -162,7 +162,7 @@ router.get('/paginated', autorController.getPaginated);
  *       404:
  *         description: Autor não encontrado
  */
-router.get('/:id', autorController.getById);
+router.get('/one/:id', autorController.getById);
 
 /**
  * @swagger

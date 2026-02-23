@@ -18,6 +18,7 @@ export class UsuarioRepository {
   }
 
   async create(usuarioData: UsuarioCreationAttributes): Promise<Usuario> {
+    console.log(usuarioData)
     return await Usuario.create(usuarioData);
   }
 

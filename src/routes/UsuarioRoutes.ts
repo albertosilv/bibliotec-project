@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import UsuarioController from '../controllers/UsuarioController';
+import { adminMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
 const usuarioController = new UsuarioController();
@@ -31,7 +32,7 @@ const usuarioController = new UsuarioController();
  *       500:
  *         description: Erro interno do servidor
  */
-router.get('/', usuarioController.getAllUsuarios);
+router.get('/',adminMiddleware, usuarioController.getAllUsuarios);
 
 /**
  * @swagger
@@ -101,7 +102,7 @@ router.get('/email', usuarioController.getUsuarioByEmail);
  *       404:
  *         description: Usuário não encontrado
  */
-router.get('/:id', usuarioController.getUsuarioById);
+router.get('/one/:id', usuarioController.getUsuarioById);
 
 /**
  * @swagger
@@ -154,7 +155,7 @@ router.get('/:id', usuarioController.getUsuarioById);
  *       400:
  *         description: Dados inválidos ou faltantes
  */
-router.post('/', usuarioController.createUsuario);
+router.post('/',adminMiddleware, usuarioController.createUsuario);
 
 /**
  * @swagger
@@ -244,7 +245,7 @@ router.put('/:id', usuarioController.updateUsuario);
  *       404:
  *         description: Usuário não encontrado
  */
-router.delete('/:id', usuarioController.deleteUsuario);
+router.delete('/:id',adminMiddleware, usuarioController.deleteUsuario);
 
 /**
  * @swagger

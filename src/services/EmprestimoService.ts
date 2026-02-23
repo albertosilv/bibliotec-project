@@ -1,11 +1,14 @@
 import EmprestimoRepository from '../repositories/EmprestimoRepository';
 import { Emprestimo, EmprestimoCreationAttributes } from '../models/Emprestimo';
+import LivroRepository from '../repositories/LivroRepository';
 
 export class EmprestimoService {
   private emprestimoRepository: EmprestimoRepository;
+  private livroRepository: LivroRepository
 
   constructor() {
     this.emprestimoRepository = new EmprestimoRepository();
+    this.livroRepository = new LivroRepository()
   }
 
   async getAllEmprestimos(): Promise<Emprestimo[]> {
@@ -49,7 +52,13 @@ export class EmprestimoService {
       if (emprestimoData.data_devolucao_prevista <= emprestimoData.data_emprestimo) {
         throw new Error('Data de devolução prevista deve ser após a data de empréstimo');
       }
-
+      console.log(emprestimoData)
+      const livro = await this.livroRepository.findById(emprestimoData.livro_id)
+      console.log(livro)
+      if (livro.quantidade_disponivel <= 0) {
+        throw new Error('Livro não possui quantidade disponivel.');
+      }
+      await this.livroRepository.decrementarQuantidade(emprestimoData.livro_id)
       return await this.emprestimoRepository.create(emprestimoData);
     } catch (error) {
       throw new Error(`Erro ao criar empréstimo: ${error}`);
@@ -184,6 +193,8 @@ export class EmprestimoService {
       if (emprestimo.status !== 'ativo') {
         throw new Error('Só é possível devolver empréstimos ativos');
       }
+
+      await this.livroRepository.incrementarQuantidade(emprestimo.livro_id)
 
       return await this.emprestimoRepository.registrarDevolucao(id);
     } catch (error) {

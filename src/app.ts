@@ -13,7 +13,8 @@ import autorRoutes from './routes/AutorRoutes';
 import categoriaRoutes from './routes/CategoriaRoutes';
 import emprestimoRoutes from './routes/EmprestimoRoutes';
 import livroRoutes from './routes/LivroRoutes';
-import { authMiddleware } from './middlewares/auth.middleware';
+import recomendacaoRoutes from './routes/RecomendacaoRoutes'
+import { adminMiddleware, authMiddleware } from './middlewares/auth.middleware';
 
 dotenv.config();
 
@@ -35,7 +36,7 @@ const swaggerOptions = {
       }
     ]
   },
-  apis: ['./src/routes/*.ts'] 
+  apis: ['./src/routes/*.ts']
 };
 
 const swaggerSpec = swaggerJsdoc(swaggerOptions);
@@ -45,12 +46,13 @@ app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use('/auth',authRoutes)
-app.use('/usuarios',authMiddleware, usuarioRoutes);
-app.use('/autores',authMiddleware, autorRoutes);
-app.use('/categorias',authMiddleware, categoriaRoutes);
-app.use('/emprestimos',authMiddleware, emprestimoRoutes);
-app.use('/livros',authMiddleware, livroRoutes);
+app.use('/api/auth', authRoutes)
+app.use('/api/usuarios', authMiddleware, usuarioRoutes);
+app.use('/api/autores', authMiddleware, autorRoutes);
+app.use('/api/categorias', authMiddleware, categoriaRoutes);
+app.use('/api/emprestimos', authMiddleware, emprestimoRoutes);
+app.use('/api/livros', authMiddleware, livroRoutes);
+app.use('/api/recomendacoes', authMiddleware, recomendacaoRoutes)
 
 interface ErrorWithMessage {
   message: string;
@@ -80,16 +82,17 @@ function getErrorMessage(error: unknown) {
 }
 
 app.get('/', (req, res) => {
-  res.json({ 
+  res.json({
     message: 'Sistema de Biblioteca API',
     timestamp: new Date().toISOString(),
     documentation: `http://localhost:${PORT}/api-docs`,
     endpoints: {
-      usuarios: '/usuarios',
-      autores: '/autores',
-      categorias: '/categorias',
-      emprestimos: '/emprestimos',
-      livros: '/livros'
+      usuarios: '/api/usuarios',
+      autores: '/api/autores',
+      categorias: '/api/categorias',
+      emprestimos: '/api/emprestimos',
+      livros: '/api/livros',
+      recomendacao: '/api/recomendacao'
     }
   });
 });
@@ -97,14 +100,14 @@ app.get('/', (req, res) => {
 app.get('/health', async (req, res) => {
   try {
     await sequelize.authenticate();
-    res.json({ 
-      status: 'OK', 
+    res.json({
+      status: 'OK',
       database: 'connected',
       timestamp: new Date().toISOString()
     });
   } catch (error) {
-    res.status(500).json({ 
-      status: 'ERROR', 
+    res.status(500).json({
+      status: 'ERROR',
       database: 'disconnected',
       error: getErrorMessage(error)
     });
@@ -116,31 +119,18 @@ app.get('/swagger.json', (req, res) => {
   res.send(swaggerSpec);
 });
 
-async function initializeApp() {
+export async function initializeApp() {
   try {
     await testConnection();
-    
+
     await syncModels();
 
-    app.listen(PORT, () => {
-      console.log(`🚀 Servidor rodando na porta ${PORT}`);
-      console.log(`📚 Sistema de Biblioteca API`);
-      console.log(`📍 Ambiente: ${process.env.NODE_ENV}`);
-      console.log(`🗄️  Banco: ${process.env.DB_NAME || 'biblioteca_db'}`);
-      console.log(`📖 Documentação: http://localhost:${PORT}/api-docs`);
-      console.log('\n📋 Endpoints disponíveis:');
-      console.log(`   👤 Usuários:    http://localhost:${PORT}/usuarios`);
-      console.log(`   ✍️  Autores:     http://localhost:${PORT}/autores`);
-      console.log(`   📂 Categorias:  http://localhost:${PORT}/categorias`);
-      console.log(`   📚 Livros:      http://localhost:${PORT}/livros`);
-      console.log(`   🔄 Empréstimos: http://localhost:${PORT}/emprestimos`);
-    });
   } catch (error) {
     console.error('❌ Erro ao iniciar aplicação:', getErrorMessage(error));
     process.exit(1);
   }
 }
 
-initializeApp();
+
 
 export default app;

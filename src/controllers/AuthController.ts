@@ -62,6 +62,8 @@ export class AuthController {
         tipo: tipo || 'cliente'
       };
 
+      console.log(registerData)
+
       const result = await authService.register(registerData);
       
       res.status(201).json({

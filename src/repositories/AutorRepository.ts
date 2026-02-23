@@ -36,6 +36,7 @@ export class AutorRepository {
   }
 
   async searchByName(nome: string): Promise<Autor[]> {
+    console.log(nome)
     return await Autor.findAll({
       where: {
         nome: {

@@ -155,6 +155,8 @@ export class AutorController {
   async search(req: Request, res: Response): Promise<void> {
     try {
       const { nome } = req.query;
+
+      console.log(nome)
       
       if (!nome || typeof nome !== 'string' || nome.trim().length < 2) {
         res.status(400).json({

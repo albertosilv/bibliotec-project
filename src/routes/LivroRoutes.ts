@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import LivroController from '../controllers/LivroController';
+import { adminMiddleware, authMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
 const livroController = new LivroController();
@@ -348,7 +349,7 @@ router.get('/:id', livroController.getById);
  *       400:
  *         description: Dados inválidos ou faltantes
  */
-router.post('/', livroController.create);
+router.post('/',adminMiddleware, livroController.create);
 
 /**
  * @swagger
@@ -399,7 +400,7 @@ router.post('/', livroController.create);
  *       400:
  *         description: Dados inválidos ou nenhum dado fornecido
  */
-router.put('/:id', livroController.update);
+router.put('/:id',adminMiddleware, livroController.update);
 
 /**
  * @swagger
@@ -429,7 +430,7 @@ router.put('/:id', livroController.update);
  *       400:
  *         description: Não foi possível remover o livro
  */
-router.delete('/:id', livroController.delete);
+router.delete('/:id',adminMiddleware, livroController.delete);
 
 /**
  * @swagger

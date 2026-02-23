@@ -1,3 +1,4 @@
+import { Autor, Categoria } from '../models';
 import { Livro, LivroCreationAttributes } from '../models/Livro';
 import { Op } from 'sequelize';
 
@@ -10,7 +11,13 @@ export class LivroRepository {
   }
 
   async findById(id: number): Promise<Livro | null> {
-    return await Livro.findByPk(id);
+    console.log(id)
+    return await Livro.findByPk(id, {
+    include: [
+      { model: Categoria, as: 'categoria' },
+      { model: Autor, as: 'autor' }
+    ]
+  });
   }
 
   async create(livroData: LivroCreationAttributes): Promise<Livro> {

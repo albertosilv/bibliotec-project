@@ -1,7 +1,7 @@
 // src/routes/categoriaRoutes.ts
 import { Router } from 'express';
 import CategoriaController from '../controllers/CategoriaController';
-import { adminMiddleware } from '../middlewares/auth.middleware';
+import { adminMiddleware, authMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
 const categoriaController = new CategoriaController();
@@ -137,7 +137,7 @@ router.get('/paginated', categoriaController.getPaginated);
  *       404:
  *         description: Categoria não encontrada
  */
-router.get('/:id', categoriaController.getById);
+router.get('/one/:id', categoriaController.getById);
 
 /**
  * @swagger
@@ -273,7 +273,7 @@ router.put('/:id',adminMiddleware, categoriaController.update);
  *       404:
  *         description: Categoria não encontrada
  */
-router.delete('/:id', categoriaController.delete);
+router.delete('/:id',adminMiddleware, categoriaController.delete);
 
 /**
  * @swagger
